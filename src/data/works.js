@@ -71,7 +71,10 @@ export const WORKS = [
 export const DROP = {
   title: "AI Tech Nerdmax Guide",
   sub: "Free PDF",
-  line: "The guide I wish I had: the AI tools and habits I actually use, in one PDF.",
+  blurb:
+    "A 62-page plain-words field guide to AI and tech. It starts from \"what is a program?\" and climbs to machine learning, LLMs, APIs, RAG, MCP, agents and Docker, with a real-life comparison for every term. You can also hand it to an AI assistant as background when brainstorming agent or ML projects.",
+  facts: ["62 pages", "271 term cards", "33 diagrams", "4 mind maps", "12-month roadmap"],
+  forWho: ["Beginners curious about AI", "Students", "Developers moving into AI and agents", "Founders and freelancers working with AI builders"],
   file: asset("downloads/AI_Tech_Nerdmax_Guide.pdf"),
 };
 

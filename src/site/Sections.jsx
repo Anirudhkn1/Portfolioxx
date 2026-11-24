@@ -126,6 +126,29 @@ export function Files() {
           <span className="o-row__tag">{DROP.sub}</span>
           <span className="o-row__y">PDF</span>
         </motion.a>
+        <motion.div
+          className="o-drop"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5 }}
+          onPointerEnter={() => setHover(-1)}
+        >
+          <p className="o-drop__blurb">{DROP.blurb}</p>
+          <ul className="o-drop__facts">
+            {DROP.facts.map((f) => (
+              <li key={f}>{f}</li>
+            ))}
+          </ul>
+          <div className="o-drop__for">
+            <span className="o-kicker">// USEFUL FOR</span>
+            <ul>
+              {DROP.forWho.map((f) => (
+                <li key={f}>{f}</li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
         {fine && (
           <motion.div className="o-preview" style={{ x: sx, y: sy }} animate={{ opacity: hover >= 0 ? 1 : 0, scale: hover >= 0 ? 1 : 0.6, rotate: hover >= 0 ? -3 : 0 }} transition={{ duration: 0.25 }}>
             <AnimatePresence mode="popLayout">

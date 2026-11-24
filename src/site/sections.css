@@ -216,6 +216,49 @@
 .o-row--drop:hover {
   background: var(--red);
 }
+/* description under the free-PDF row */
+.o-drop {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 14px 18px;
+  padding: 20px 12px 28px;
+  border-bottom: 2px solid var(--white);
+}
+.o-drop > * {
+  grid-column: 2;
+}
+.o-drop__blurb {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 15px;
+  line-height: 1.65;
+}
+.o-drop__facts,
+.o-drop__for ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.o-drop__facts li {
+  font-family: var(--f-pixel);
+  font-size: 12px;
+  padding: 6px 10px;
+  background: var(--red);
+  color: #000;
+}
+.o-drop__for {
+  display: grid;
+  gap: 8px;
+}
+.o-drop__for li {
+  font-family: var(--f-pixel);
+  font-size: 12px;
+  padding: 6px 10px;
+  border: 1px solid rgba(242, 242, 242, 0.45);
+}
 .o-row__thumb {
   grid-column: 1 / -1;
   width: 100%;
@@ -376,6 +419,14 @@
   .o-row {
     grid-template-columns: 40px 1fr;
     gap: 8px 12px;
+  }
+  .o-drop {
+    grid-template-columns: 1fr;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .o-drop > * {
+    grid-column: 1;
   }
   .o-row__tag,
   .o-row__y {
