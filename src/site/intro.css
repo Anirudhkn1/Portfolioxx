@@ -1,0 +1,280 @@
+/* Intro film (hood skull → A sigil loader) */
+.i1 {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #050505;
+  overflow: hidden;
+  /* skull height on screen = 0.545 × shorter side (see SkullPoints camera) */
+  --sk: 54.5vmin;
+}
+.i1-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: #fff;
+  box-shadow: 0 0 18px #fff;
+  transform-origin: 50% 50%;
+}
+.i1-boot {
+  position: absolute;
+  top: max(20px, env(safe-area-inset-top));
+  left: max(18px, env(safe-area-inset-left));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(10px, 1.1vw, 13px);
+  line-height: 1.9;
+  color: #b5b5b5;
+  z-index: 4;
+}
+.i1-boot li:last-child {
+  color: var(--red);
+}
+.i1-eyes {
+  position: absolute;
+  inset: -4%;
+}
+.i1-skull {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+.i1-void {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--sk) * 1.9);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.92) 38%, rgba(0, 0, 0, 0.6) 55%, transparent 72%);
+  pointer-events: none;
+}
+.i1-id {
+  position: absolute;
+  z-index: 4;
+  right: 6vw;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  gap: 4px;
+  text-align: right;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  color: #b9b9b9;
+}
+.i1-id b {
+  font-family: var(--f-head);
+  font-weight: 400;
+  font-size: clamp(34px, 5vw, 72px);
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: var(--blue);
+  padding: 0 0.2em;
+}
+.i1-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  background: var(--red);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* loading-screen composition */
+.i1-load {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 43, 61, 0.12), transparent 45%),
+    radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1.3px) 0 0 / 4px 4px,
+    linear-gradient(180deg, #0d0d0e, #070707);
+  overflow: hidden;
+}
+.i1-ghost {
+  position: absolute;
+  font-family: var(--f-head);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+  line-height: 0.85;
+  pointer-events: none;
+}
+.i1-ghost--a {
+  top: 18%;
+  left: -2%;
+  font-size: clamp(110px, 22vw, 380px);
+  color: rgba(255, 255, 255, 0.05);
+}
+.i1-ghost--b {
+  top: 58%;
+  left: 12%;
+  font-size: clamp(40px, 7vw, 120px);
+  color: rgba(255, 255, 255, 0.09);
+  letter-spacing: 0.25em;
+}
+.i1-sticker {
+  position: absolute;
+  display: grid;
+  line-height: 0.88;
+  font-family: var(--f-head);
+  color: #d7d7d7;
+  text-transform: uppercase;
+}
+.i1-sticker small {
+  font-family: var(--f-head);
+  text-transform: lowercase;
+  font-size: 0.45em;
+  color: #cfcfcf;
+}
+.i1-sticker--tl {
+  top: 5%;
+  left: 3%;
+  font-size: clamp(36px, 6.5vw, 104px);
+  text-shadow: 3px 3px 0 #000;
+}
+.i1-sticker--tl small {
+  margin-left: 22%;
+}
+.i1-sticker--red {
+  top: 12%;
+  left: calc(50% + min(16vw, 22vh));
+  color: var(--red);
+  font-size: clamp(26px, 3.8vw, 60px);
+  line-height: 0.95;
+}
+.i1-sticker--br {
+  right: 3%;
+  bottom: 9%;
+  text-align: right;
+  font-size: clamp(30px, 5.2vw, 86px);
+}
+.i1-sticker--br small {
+  justify-self: start;
+  margin: 0.15em 0;
+}
+.i1-face {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(30vw, 380px);
+  aspect-ratio: 1;
+  filter: grayscale(1) contrast(1.6) brightness(0.9);
+  mix-blend-mode: screen;
+  -webkit-mask: radial-gradient(circle, #000 1.1px, transparent 1.5px) 0 0 / 4px 4px, linear-gradient(#000, #000);
+  -webkit-mask-composite: source-in;
+  mask:
+    radial-gradient(circle, #000 1.1px, transparent 1.5px) 0 0 / 4px 4px,
+    linear-gradient(to left, #000 40%, transparent);
+  mask-composite: intersect;
+  opacity: 0.75;
+}
+.i1-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 40% 10%;
+}
+.i1-badge {
+  position: absolute;
+  left: 3%;
+  bottom: 6%;
+  width: clamp(64px, 9vw, 130px);
+  color: #cfcfcf;
+}
+.i1-sigil {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* matches the point-cloud sigil: 2.1 units tall at 0.545vmin per 2 units */
+  width: calc(var(--sk) * 1.19);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  filter: drop-shadow(0 0 24px rgba(255, 43, 61, 0.35));
+}
+.i1-progress {
+  position: absolute;
+  left: 50%;
+  bottom: 7%;
+  transform: translateX(-50%);
+  width: min(360px, 60vw);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 12px;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: #9a9a9a;
+}
+.i1-progress i {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  height: 2px;
+  background: var(--red);
+  transform-origin: 0 50%;
+}
+.i1-progress b {
+  color: #fff;
+}
+.i1-tear {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+}
+.i1-tear span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--y);
+  height: var(--h);
+  opacity: 0;
+}
+.i1.is-tearing .i1-load,
+.i1.is-tearing .i1-skull {
+  animation: i1-shake 0.3s steps(5) both;
+}
+.i1.is-tearing .i1-tear span {
+  animation: i1-band 0.3s steps(3) both;
+  background: linear-gradient(90deg, transparent, rgba(255, 43, 61, 0.9) 20%, #000 21%, #000 70%, rgba(43, 224, 255, 0.8) 71%, transparent);
+}
+.i1.is-tearing .i1-tear span:nth-child(3n) {
+  background: #fff;
+  mix-blend-mode: difference;
+}
+@keyframes i1-band {
+  0% { opacity: 0; transform: translateX(0); }
+  30% { opacity: 1; transform: translateX(var(--x)); }
+  100% { opacity: 1; transform: translateX(calc(var(--x) * -1.5)); }
+}
+@keyframes i1-shake {
+  0% { transform: none; filter: none; }
+  25% { transform: translate(-14px, 3px) skewX(6deg); filter: hue-rotate(90deg); }
+  50% { transform: translate(18px, -2px); filter: invert(1); }
+  75% { transform: translate(-6px, 0) skewX(-10deg); }
+  100% { transform: translate(0, 0); filter: none; }
+}
+
+@media (max-width: 760px) {
+  .i1-id {
+    right: 50%;
+    top: auto;
+    bottom: 12%;
+    transform: translateX(50%);
+    text-align: center;
+  }
+  .i1-sticker--red {
+    left: auto;
+    right: 4%;
+    top: 22%;
+  }
+  .i1-face {
+    width: 46vw;
+    opacity: 0.5;
+  }
+}

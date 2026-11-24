@@ -1,0 +1,323 @@
+/* red / black / white palette everywhere, including the intro */
+.f-introvars {
+  --red: #ff1f3d;
+  --blue: #ff1f3d; /* the intro's ID plate goes red instead of blue */
+  --green: #f2f2f2;
+}
+
+.f-main {
+  padding-left: 150px;
+}
+
+/* ═════════════ channel rail (CATHODE layout, OFFLINE colours) ═════════════ */
+.f-rail {
+  position: fixed;
+  z-index: 600;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  gap: 6px;
+  width: 116px;
+  font-family: var(--f-pixel);
+}
+.f-rail__mark {
+  width: 46px;
+  margin: 0 0 14px 4px;
+}
+.f-rail__ch {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  align-items: center;
+  text-align: left;
+  padding: 7px 8px;
+  border: 1px solid rgba(242, 242, 242, 0.28);
+  background: rgba(10, 10, 10, 0.75);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  transition: background 0.12s steps(2), color 0.12s steps(2);
+}
+.f-rail__ch span {
+  color: var(--red);
+}
+.f-rail__ch b {
+  font-weight: 400;
+}
+.f-rail__ch:hover,
+.f-rail__ch.is-on {
+  background: var(--white);
+  color: #000;
+}
+.f-rail__ch.is-on span {
+  color: var(--red);
+}
+/* the replay button is the loud one */
+.f-rail__replay {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 8px;
+  align-items: center;
+  text-align: left;
+  padding: 9px 10px;
+  background: var(--red);
+  color: #000;
+  box-shadow: 4px 4px 0 var(--white);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.f-rail__replay i {
+  grid-row: 1 / span 2;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  display: inline-block;
+}
+.f-rail__replay b {
+  font-weight: 400;
+  font-size: 12px;
+}
+.f-rail__replay small {
+  font-size: 9px;
+  opacity: 0.75;
+}
+.f-rail__replay:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--white);
+}
+.f-rail__replay:hover i {
+  animation: f-spin 0.6s steps(8) 1;
+}
+@keyframes f-spin {
+  to { transform: rotate(-360deg); }
+}
+
+/* the OFFLINE header sits to the right of the rail on desktop */
+.f .o-head__brand {
+  visibility: hidden;
+}
+
+/* ═════════════ guide overlay ═════════════ */
+.f-guide {
+  position: fixed;
+  inset: 0;
+  z-index: 850;
+  background: #0a0a0a;
+  transform-origin: 50% 50%;
+  display: grid;
+  align-content: center;
+  gap: 22px;
+  padding: 70px clamp(20px, 6vw, 90px) 40px;
+  overflow: hidden;
+}
+.f-guide__shard {
+  position: absolute;
+  width: 120vw;
+  height: 26vh;
+  background: var(--red);
+  transform: rotate(-14deg);
+  top: 34%;
+  left: -10vw;
+  clip-path: polygon(0 30%, 100% 0, 100% 70%, 0 100%);
+  opacity: 0.16;
+  pointer-events: none;
+}
+.f-guide__kicker {
+  margin: 0;
+  font-family: var(--f-pixel);
+  font-size: 13px;
+  color: var(--red);
+  position: relative;
+}
+.f-guide__list {
+  display: grid;
+  gap: 2px;
+  position: relative;
+}
+.f-guide__list button {
+  text-align: left;
+  font-family: var(--f-head);
+  font-size: clamp(42px, 8vw, 110px);
+  line-height: 0.98;
+  color: var(--white);
+  display: flex;
+  align-items: baseline;
+  gap: 0.3em;
+  transition: color 0.12s, transform 0.25s var(--ease-out);
+}
+.f-guide__list button span {
+  font-family: var(--f-pixel);
+  font-size: 0.14em;
+  color: var(--red);
+  min-width: 4.5em;
+}
+.f-guide__list button:hover,
+.f-guide__list button.is-on {
+  color: var(--red);
+  transform: translateX(14px) skewX(-6deg);
+}
+.f-guide__replay {
+  position: relative;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 22px 14px 16px;
+  background: var(--red);
+  color: #000;
+  text-align: left;
+  box-shadow: 7px 7px 0 var(--white);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.f-guide__replay i {
+  font-style: normal;
+  font-size: 46px;
+  line-height: 1;
+}
+.f-guide__replay b {
+  display: block;
+  font-family: var(--f-head);
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1;
+}
+.f-guide__replay small {
+  font-family: var(--f-pixel);
+  font-size: 11px;
+}
+.f-guide__replay:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 10px 10px 0 var(--white);
+}
+.f-guide__replay:hover i {
+  animation: f-spin 0.6s steps(8) 1;
+}
+.f-guide__foot {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-family: var(--f-pixel);
+  font-size: 12px;
+}
+.f-guide__foot button {
+  padding: 9px 12px;
+  border: 1px solid rgba(242, 242, 242, 0.35);
+}
+.f-guide__x {
+  background: var(--white);
+  color: #000;
+}
+
+/* ═════════════ SAY HI with the ASCII portrait ═════════════ */
+.f-hi {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 3vw;
+  padding: 80px clamp(16px, 4vw, 70px) 90px 0;
+  background: #070707;
+  border-top: 2px solid var(--white);
+  overflow: hidden;
+}
+.f-hi__shard {
+  position: absolute;
+  width: 130vw;
+  height: 20vh;
+  background: var(--red);
+  transform: rotate(-12deg);
+  top: 44%;
+  left: -15vw;
+  clip-path: polygon(0 30%, 100% 0, 100% 70%, 0 100%);
+  opacity: 0.85;
+}
+.f-hi__portrait {
+  position: relative;
+  height: min(88vh, 860px);
+  background: #000;
+  border: 2px solid var(--white);
+  box-shadow: 10px 10px 0 var(--red);
+}
+.f-hi__caption {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-family: var(--f-pixel);
+  font-size: 10px;
+  color: #8a8a8a;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+.f-hi__text {
+  position: relative;
+  z-index: 2;
+  background: rgba(7, 7, 7, 0.86);
+  padding: 22px 24px 26px;
+  border: 1px solid rgba(242, 242, 242, 0.18);
+}
+.f-hi__status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--f-pixel);
+  font-size: 12px;
+}
+.f-hi__status b {
+  color: var(--red);
+  font-weight: 400;
+}
+.f-hi__bot {
+  width: 34px;
+  display: inline-block;
+}
+.f-hi__bot .critter {
+  width: 100%;
+}
+.f-hi__big {
+  margin: 10px 0 0;
+  font-family: var(--f-head);
+  font-weight: 400;
+  font-size: clamp(80px, 12vw, 220px);
+  line-height: 0.86;
+  text-shadow: 7px 7px 0 var(--red);
+}
+.f-hi__text p {
+  max-width: 40ch;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 18px 0 20px;
+}
+.f-hi__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ═════════════ responsive ═════════════ */
+@media (max-width: 760px) {
+  .f-main {
+    padding-left: 0;
+  }
+  .f-rail {
+    display: none;
+  }
+  .f .o-head__brand {
+    visibility: visible;
+  }
+  .f-hi {
+    grid-template-columns: 1fr;
+    padding: 70px 16px 90px;
+  }
+  .f-hi__portrait {
+    height: 62vh;
+  }
+  .f-hi__text {
+    margin-top: -40px;
+  }
+  .f-guide__replay {
+    justify-self: stretch;
+  }
+}
