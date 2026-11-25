@@ -9,6 +9,7 @@ import WorkDetail from "../shared/WorkDetail";
 import { Cursor } from "../shared/Chrome";
 import Intro from "./Intro";
 import { Header, Hero, Files, Who } from "./Sections";
+import { Blogs, BlogReader } from "./Blogs";
 import { CONFIG } from "../config";
 import { asset } from "../lib/asset";
 import { introSeen, markIntro, resetIntro, useScrollLock } from "../lib/hooks";
@@ -24,6 +25,7 @@ import "./site.css";
 const CHANNELS = [
   ["o-top", "HOME"],
   ["o-files", "SHIPPED"],
+  ["o-blogs", "BLOGS"],
   ["o-who", "WHO"],
   ["o-hi", "SAY HI"],
 ];
@@ -179,6 +181,7 @@ function Page({ onReplay }) {
       <main className="f-main">
         <Hero />
         <Files />
+        <Blogs />
         <Who />
         <SayHi />
       </main>
@@ -192,6 +195,7 @@ export default function Site({ sub }) {
   const [ready, setReady] = useState(() => introSeen("v4"));
   const [run, setRun] = useState(0); // remounts the intro on replay
   const slug = sub[0] === "work" ? sub[1] : null;
+  const blog = sub[0] === "blog" ? sub[1] : null;
 
   const replay = () => {
     resetIntro("v4");
@@ -219,6 +223,8 @@ export default function Site({ sub }) {
       )}
       {ready && <Page onReplay={replay} />}
       <AnimatePresence>{slug && <WorkDetail key={slug} slug={slug} base="" theme="wd--o" label="FILE" />}</AnimatePresence>
+      {/* one overlay at a time; the key remounts so each post opens at the top */}
+      <AnimatePresence>{blog && <BlogReader key={blog} slug={blog} />}</AnimatePresence>
     </div>
   );
 }
