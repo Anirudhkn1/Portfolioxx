@@ -10,6 +10,7 @@ import { Cursor } from "../shared/Chrome";
 import Intro from "./Intro";
 import { Header, Hero, Files, Who } from "./Sections";
 import { Blogs, BlogReader } from "./Blogs";
+import AllShipped from "./AllShipped";
 import { CONFIG } from "../config";
 import { asset } from "../lib/asset";
 import { introSeen, markIntro, resetIntro, useScrollLock } from "../lib/hooks";
@@ -194,7 +195,10 @@ export default function Site({ sub }) {
   const [intro, setIntro] = useState(() => !introSeen("v4"));
   const [ready, setReady] = useState(() => introSeen("v4"));
   const [run, setRun] = useState(0); // remounts the intro on replay
-  const slug = sub[0] === "work" ? sub[1] : null;
+  // "#/work/x" opens over home; "#/shipped/work/x" opens over the See all page and returns to it
+  const shipped = sub[0] === "shipped";
+  const rest = shipped ? sub.slice(1) : sub;
+  const slug = rest[0] === "work" ? rest[1] : null;
   const blog = sub[0] === "blog" ? sub[1] : null;
 
   const replay = () => {
@@ -222,7 +226,8 @@ export default function Site({ sub }) {
         </div>
       )}
       {ready && <Page onReplay={replay} />}
-      <AnimatePresence>{slug && <WorkDetail key={slug} slug={slug} base="" theme="wd--o" label="FILE" />}</AnimatePresence>
+      <AnimatePresence>{shipped && <AllShipped key="shipped" covered={!!slug} />}</AnimatePresence>
+      <AnimatePresence>{slug && <WorkDetail key={slug} slug={slug} base={shipped ? "shipped" : ""} theme="wd--o" label="FILE" />}</AnimatePresence>
       {/* one overlay at a time; the key remounts so each post opens at the top */}
       <AnimatePresence>{blog && <BlogReader key={blog} slug={blog} />}</AnimatePresence>
     </div>

@@ -56,6 +56,41 @@ function Lightbox({ images, index, onClose, onStep }) {
   );
 }
 
+// poster first; YouTube is only contacted after the visitor presses play
+function Video({ video, poster }) {
+  const [playing, setPlaying] = useState(false);
+  if (playing)
+    return (
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0`}
+        title={video.title}
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+        allowFullScreen
+        referrerPolicy="strict-origin-when-cross-origin"
+      />
+    );
+  return (
+    <button className="wd__play cursor-target" onClick={() => setPlaying(true)} aria-label={`Play ${video.title}`}>
+      <img src={poster} alt="" />
+      <span>▶︎ PLAY VIDEO</span>
+    </button>
+  );
+}
+
+// turns the known @handles in a string into links
+function withMentions(text, mentions) {
+  if (!mentions) return text;
+  return text.split(/(@\w+)/).map((part, i) => {
+    const url = part.startsWith("@") && mentions[part.slice(1)];
+    if (!url) return part;
+    return (
+      <a key={i} className="wd__mention cursor-target" href={url} target="_blank" rel="noreferrer">
+        {part}
+      </a>
+    );
+  });
+}
+
 export default function WorkDetail({ slug, base, theme = "", label = "FILE" }) {
   const w = workBySlug(slug);
   const [lb, setLb] = useState(-1);
@@ -87,10 +122,16 @@ export default function WorkDetail({ slug, base, theme = "", label = "FILE" }) {
       </div>
 
       <header className="wd__hero">
-        <div className="wd__heroimg">
-          <img src={w.hero} alt={w.title} />
-          <span className="wd__scan" />
-        </div>
+        {w.video ? (
+          <div className="wd__heroimg wd__heroimg--video">
+            <Video video={w.video} poster={w.hero} />
+          </div>
+        ) : (
+          <div className="wd__heroimg">
+            <img src={w.hero} alt={w.title} />
+            <span className="wd__scan" />
+          </div>
+        )}
         <div className="wd__heading">
           <span className="wd__tag">{w.tag} · {w.year}</span>
           <h1 className="wd__title">
@@ -98,6 +139,11 @@ export default function WorkDetail({ slug, base, theme = "", label = "FILE" }) {
           </h1>
           <p className="wd__summary">{w.summary}</p>
           <div className="wd__links">
+            {w.video && (
+              <a className="wd__btn wd__btn--main cursor-target" href={`https://youtu.be/${w.video.id}`} target="_blank" rel="noreferrer">
+                ▸ WATCH ON YOUTUBE
+              </a>
+            )}
             {w.live && (
               <a className="wd__btn wd__btn--main cursor-target" href={w.live} target="_blank" rel="noreferrer">
                 ▸ OPEN LIVE
@@ -112,36 +158,46 @@ export default function WorkDetail({ slug, base, theme = "", label = "FILE" }) {
         </div>
       </header>
 
-      <motion.section className="wd__body" variants={list} initial="hidden" animate="show">
+      <motion.section className={"wd__body " + (w.highlights ? "" : "wd__body--duo")} variants={list} initial="hidden" animate="show">
         <motion.div className="wd__meta" variants={item}>
           <div>
             <span>ROLE</span>
             <b>{w.role}</b>
           </div>
-          <div>
-            <span>STACK</span>
-            <ul className="wd__chips">
-              {w.tools.map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ul>
-          </div>
+          {w.tools && (
+            <div>
+              <span>STACK</span>
+              <ul className="wd__chips">
+                {w.tools.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {w.facts?.map(([k, v]) => (
+            <div key={k}>
+              <span>{k}</span>
+              <b>{withMentions(v, w.mentions)}</b>
+            </div>
+          ))}
         </motion.div>
         <div className="wd__story">
           {w.story.map((p, i) => (
             <motion.p key={i} variants={item}>
-              {p}
+              {withMentions(p, w.mentions)}
             </motion.p>
           ))}
         </div>
-        <motion.ul className="wd__highlights" variants={item}>
-          {w.highlights.map((h) => (
-            <li key={h}>{h}</li>
-          ))}
-        </motion.ul>
+        {w.highlights && (
+          <motion.ul className="wd__highlights" variants={item}>
+            {w.highlights.map((h) => (
+              <li key={h}>{h}</li>
+            ))}
+          </motion.ul>
+        )}
       </motion.section>
 
-      <section className={"wd__gallery " + (w.galleryFit === "phones" ? "wd__gallery--phones" : "")}>
+      <section className={"wd__gallery " + (w.galleryFit ? "wd__gallery--" + w.galleryFit : "")}>
         {w.gallery.map((g, i) => (
           <motion.button
             key={g}

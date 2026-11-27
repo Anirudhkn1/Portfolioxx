@@ -62,14 +62,16 @@ export function visitorId() {
   return id;
 }
 
-// lock body scroll while an overlay is open
+// lock body scroll while an overlay is open; counted, because overlays stack and can close in any order
+let locks = 0;
 export function useScrollLock(on) {
   useEffect(() => {
     if (!on) return;
-    const prev = document.documentElement.style.overflow;
+    locks += 1;
     document.documentElement.style.overflow = "hidden";
     return () => {
-      document.documentElement.style.overflow = prev;
+      locks -= 1;
+      if (!locks) document.documentElement.style.overflow = "";
     };
   }, [on]);
 }

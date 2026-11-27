@@ -7,7 +7,7 @@ import Dither from "../rb/Dither";
 import SkullPoints from "../engine/SkullPoints";
 import AMark from "../shared/AMark";
 import { CONFIG } from "../config";
-import { WORKS, DROP } from "../data/works";
+import { CATEGORIES, FEATURED } from "../data/works";
 import { go, useFinePointer, useMobile } from "../lib/hooks";
 import "./sections.css";
 
@@ -88,12 +88,17 @@ export function Files() {
   };
   return (
     <section className="o-files" id="o-files">
-      <div className="o-sechead">
-        <span className="o-kicker">// FILES</span>
-        <h2>SHIPPED.</h2>
+      <div className="o-sechead o-sechead--row">
+        <div>
+          <span className="o-kicker">// FILES</span>
+          <h2>SHIPPED.</h2>
+        </div>
+        <button className="o-seetop cursor-target" onClick={() => go("shipped")}>
+          SEE ALL ↗
+        </button>
       </div>
       <div className="o-list" ref={listRef} onPointerMove={fine ? onMove : undefined} onPointerLeave={() => setHover(-1)}>
-        {WORKS.map((w, i) => (
+        {FEATURED.map((w, i) => (
           <motion.button
             key={w.slug}
             className="o-row cursor-target"
@@ -111,51 +116,13 @@ export function Files() {
             {!fine && <img className="o-row__thumb" src={w.cover} alt="" loading="lazy" />}
           </motion.button>
         ))}
-        <motion.a
-          className="o-row o-row--drop cursor-target"
-          href={DROP.file}
-          download
-          initial={{ opacity: 0, x: -80 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          onPointerEnter={() => setHover(-1)}
-        >
-          <span className="o-row__i">↓</span>
-          <span className="o-row__t">{DROP.title}</span>
-          <span className="o-row__tag">{DROP.sub}</span>
-          <span className="o-row__y">PDF</span>
-        </motion.a>
-        <motion.div
-          className="o-drop"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5 }}
-          onPointerEnter={() => setHover(-1)}
-        >
-          <p className="o-drop__blurb">{DROP.blurb}</p>
-          <ul className="o-drop__facts">
-            {DROP.facts.map((f) => (
-              <li key={f}>{f}</li>
-            ))}
-          </ul>
-          <div className="o-drop__for">
-            <span className="o-kicker">// USEFUL FOR</span>
-            <ul>
-              {DROP.forWho.map((f) => (
-                <li key={f}>{f}</li>
-              ))}
-            </ul>
-          </div>
-        </motion.div>
         {fine && (
           <motion.div className="o-preview" style={{ x: sx, y: sy }} animate={{ opacity: hover >= 0 ? 1 : 0, scale: hover >= 0 ? 1 : 0.6, rotate: hover >= 0 ? -3 : 0 }} transition={{ duration: 0.25 }}>
             <AnimatePresence mode="popLayout">
               {hover >= 0 && (
                 <motion.img
                   key={hover}
-                  src={WORKS[hover].cover}
+                  src={FEATURED[hover].cover}
                   alt=""
                   initial={{ clipPath: "inset(0 0 100% 0)" }}
                   animate={{ clipPath: "inset(0 0 0% 0)" }}
@@ -167,6 +134,18 @@ export function Files() {
           </motion.div>
         )}
       </div>
+      <motion.button
+        className="o-seeall cursor-target"
+        onClick={() => go("shipped")}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <b>SEE ALL</b>
+        <span>{[...CATEGORIES.map((c) => c.title), "Free downloads"].join(" · ")}</span>
+        <i>↗</i>
+      </motion.button>
     </section>
   );
 }

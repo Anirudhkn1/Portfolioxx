@@ -2,11 +2,20 @@ import { asset } from "../lib/asset";
 
 const Z = asset("img/zensation/");
 const A = asset("img/avance/");
+const I = asset("img/indu/");
 
-// Carried over from the earlier (Minecraft) portfolio. Every work card + detail page is built from this list.
+// The headings on the "See all" page (#/shipped), in order. Each work picks one with `category`.
+export const CATEGORIES = [
+  { id: "web", title: "Web dev" },
+  { id: "projects", title: "Projects" },
+  { id: "niche", title: "Niche" },
+];
+
+// Every work card + detail page is built from this list. The first HOME_LIMIT also show on the home page.
 export const WORKS = [
   {
     slug: "zensation-dojo",
+    category: "web",
     title: "Zensation Dojo",
     sub: "Website",
     tag: "Website · Motion",
@@ -36,6 +45,7 @@ export const WORKS = [
   },
   {
     slug: "avance-schools",
+    category: "projects",
     title: "Avance Schools",
     sub: "Mobile app",
     tag: "Mobile app · EdTech",
@@ -65,7 +75,39 @@ export const WORKS = [
     gallery: ["n_home", "s_homework", "s_quiz", "i_spaced_back", "n_chat_mindmap", "n_profile_pets", "s_parents", "t_home", "t_restores"].map((n) => A + n + ".webp"),
     galleryFit: "phones",
   },
+  {
+    slug: "indu-music-video",
+    category: "niche",
+    title: "INDU Music Video",
+    tag: "Music video · Cast",
+    year: "2026",
+    cover: I + "cover.webp",
+    hero: I + "cover.webp", // poster shown until the video is played
+    video: { id: "wGFgFlQ_iHE", title: "INDU - Sumedh K (Official Music Video) | Rectangle Films" },
+    summary: "INDU by Sumedh K, an official music video from Rectangle Films. I am part of the cast.",
+    role: "Cast",
+    facts: [
+      ["LOCATION", "Western Ghats · Sharavati River backwaters · Kavaledurga Fort"],
+      ["CREDITS", "@rectangle_films · @sumedhk119"],
+    ],
+    // @handles in `story` and `facts` that become Instagram links
+    mentions: {
+      rectangle_films: "https://www.instagram.com/rectangle_films/",
+      sumedhk119: "https://www.instagram.com/sumedhk119/",
+    },
+    story: [
+      "Picture yourself in the hills of the Western Ghats, surrounded by ancient architecture in the middle of the monsoon, with clouds drifting right past you.",
+      "Then, picture running barefoot through the wet mud by the Sharavati River backwaters in a dhoti with your friends—shivering in the rain, yet soaking in every bit of nature's magic.",
+      "Nothing short of a dream, right? Pure heaven. Grateful to have experienced this, all thanks to the @rectangle_films team and @sumedhk119.",
+    ],
+    // order matters: the "film" layout is two wide shots, then one wide + one tall
+    gallery: ["friends-hills", "coracle", "set-crane", "mask"].map((n) => I + n + ".webp"),
+    galleryFit: "film",
+  },
 ];
+
+export const HOME_LIMIT = 3;
+export const FEATURED = WORKS.slice(0, HOME_LIMIT);
 
 // The free guide from the old site's "Nerdify" section.
 export const DROP = {
